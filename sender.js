@@ -43,7 +43,7 @@ document.getElementById('inputAnswer').onclick = event => {
 };
 
 document.getElementById('inputCandidateReceiver').onclick = event => {
-    const candidate = prompt('Receiver Candidate を入力');
+    const candidate = prompt('Input receiver candidate');
     senderConn.addIceCandidate(JSON.parse(candidate)).then((event) => {
         console.log("[Sender] candidate added: ", event);
     });
