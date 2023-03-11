@@ -1,6 +1,6 @@
-const localConnection = new RTCPeerConnection();
+const receiverConn = new RTCPeerConnection();
 
-localConnection.ondatachannel = (event) => {
+receiverConn.ondatachannel = (event) => {
     const receiveChannel = event.channel;
     receiveChannel.onmessage = (event) => {
         console.log('[Receiver] onmessage: ', event.data)
@@ -10,7 +10,7 @@ localConnection.ondatachannel = (event) => {
     };
 };
 
-localConnection.onicecandidate = (event) => {
+receiverConn.onicecandidate = (event) => {
     if (event.candidate) {
         let candidateJson = JSON.stringify(event.candidate);
         console.log('[Receiver] onicecandidate', candidateJson);
@@ -20,19 +20,19 @@ localConnection.onicecandidate = (event) => {
 
 document.getElementById('inputOffer').onclick = event => {
     const offer = prompt("Input offer");
-    localConnection.setRemoteDescription(JSON.parse(offer)).then(() => {
-        return localConnection.createAnswer();
+    receiverConn.setRemoteDescription(JSON.parse(offer)).then(() => {
+        return receiverConn.createAnswer();
     }).then((answer) => {
         let answerJson = JSON.stringify(answer);
         console.log('[Receiver] Input this answer on Sender: ', answerJson);
         document.getElementById('answerSdp').innerHTML = answerJson;
-        return localConnection.setLocalDescription(answer);
+        return receiverConn.setLocalDescription(answer);
     });
 };
 
 document.getElementById('inputCandidateSender').onclick = event => {
     const candidate = prompt('Sender Candidate を入力');
-    localConnection.addIceCandidate(JSON.parse(candidate)).then((event) => {
+    receiverConn.addIceCandidate(JSON.parse(candidate)).then((event) => {
         console.log("[Receiver] candidate added: ", event);
     });
 }

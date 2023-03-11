@@ -1,6 +1,6 @@
-const remoteConnection = new RTCPeerConnection();
+const senderConn = new RTCPeerConnection();
 
-const sendChannel = remoteConnection.createDataChannel("myDataChannel");
+const sendChannel = senderConn.createDataChannel("myDataChannel");
 sendChannel.onopen = event => {
     console.log('[Sender] onopen: ', event);
     const sendButton = document.getElementById("sendButton");
@@ -21,7 +21,7 @@ sendChannel.onmessage = msg => {
     console.log('[Sender] onmessage: ', msg);
 }
 
-remoteConnection.onicecandidate = (event) => {
+senderConn.onicecandidate = (event) => {
     if (event.candidate) {
         let candidateJson = JSON.stringify(event.candidate);
         console.log('[Sender] onicecandidate', candidateJson);
@@ -29,9 +29,9 @@ remoteConnection.onicecandidate = (event) => {
     }
 };
 
-remoteConnection.createOffer()
+senderConn.createOffer()
 .then( offerSdp => {
-    remoteConnection.setLocalDescription(offerSdp);
+    senderConn.setLocalDescription(offerSdp);
     let offerJson = JSON.stringify(offerSdp)
     console.log('[Sender] Share this offer to receiver: ', offerJson);
     document.getElementById('offerSdp').innerHTML = offerJson;
@@ -39,12 +39,12 @@ remoteConnection.createOffer()
 
 document.getElementById('inputAnswer').onclick = event => {
     const offer = prompt("Input answer from receiver");
-    remoteConnection.setRemoteDescription(JSON.parse(offer));
+    senderConn.setRemoteDescription(JSON.parse(offer));
 };
 
 document.getElementById('inputCandidateReceiver').onclick = event => {
     const candidate = prompt('Receiver Candidate を入力');
-    remoteConnection.addIceCandidate(JSON.parse(candidate)).then((event) => {
+    senderConn.addIceCandidate(JSON.parse(candidate)).then((event) => {
         console.log("[Sender] candidate added: ", event);
     });
 }
