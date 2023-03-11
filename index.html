@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebRTC P2P DataChannel Demo</title>
+</head>
+
+<body>
+    <h1>P2P Data transportation demo with WebRTC data channel</h1>
+    <hr>
+    <h2>Received text</h2>
+    <p id="receiveText" style="min-height: 50px; border-width:1px; border-style:solid;"></p>
+    <hr>
+    <h2>Edit Text</h2>
+    <textarea id="sendText" rows="10" cols="50"></textarea>
+    <button id="sendButton" style="display: block">Send</button>
+    <hr>
+    <hr>
+
+    <h2>How to establish WebRTC connection in LAN</h2>
+    <h3>1. Share offer SDP from sender to receiver</h3>
+    <p>Input offer SDP below on another browser</p>
+    <p id="offerSdp"></p>
+    <button id="inputOffer">Input offer on the receiver</button>
+
+    <h3>2. Share answer SDP from receiver to sender</h3>
+    <p>Input answer SDP below on another browser</p>
+    <p id="answerSdp"></p>
+    <button id="inputAnswer">Input answer on the sender</button>
+
+    <h2>3. Share candidate of Sender to receiver</h2>
+    <p>Input candidate of sender below on another browser</p>
+    <p id="candidateSender"></p>
+    <button id="inputCandidateSender">Input candidate of sender on receiver</button>
+
+    <h2>4. Input candidate of Receiver</h2>
+    <p>Input candidate of sender below on another browser</p>
+    <p id="candidateReceiver"></p>
+    <button id="inputCandidateReceiver">Input candidate of receiver on sender</button>
+
+    <script src="receiver.js"></script>
+    <script src="sender.js"></script>
+</body>
+
+</html>
